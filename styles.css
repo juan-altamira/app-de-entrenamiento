@@ -1,0 +1,250 @@
+:root {
+  --primary-color: #0a84ff;
+  --bg-color: #18181b;
+  --card-bg: #23232a;
+  --text-color: #fff;
+  --secondary-text: #b3b3b3;
+  --border-color: #23232a;
+  --success-color: #22c55e;
+  --day-header-bg: #16161a; /* Más oscuro para mayor contraste */
+}
+
+/* Base styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+} 
+
+/* Container */
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 12px;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+}
+
+.container > h1 {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  text-align: center;
+  margin: 0 0 16px 0;
+  padding: 16px 0;
+  font-weight: 600;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.25);
+} 
+
+/* Día card */
+.day-card {
+  background-color: var(--card-bg);
+  border-radius: 14px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  overflow: hidden;
+  border: 1px solid #26262c;
+} 
+
+/* Encabezado de día */
+.day-header {
+  padding: 18px 18px 18px 22px;
+  background-color: var(--day-header-bg);
+  color: var(--text-color);
+  font-size: 1.16rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  border-bottom: 1px solid #222228;
+  border-radius: 14px 14px 0 0;
+  letter-spacing: 0.01em;
+}
+
+.day-header span {
+  font-size: 1.2em;
+  color: var(--secondary-text);
+  margin-left: 16px;
+  transition: transform 0.2s;
+}
+
+.day-content.expanded + .day-header span {
+  transform: rotate(90deg);
+} 
+
+/* Contenido de día */
+.day-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(.4,2,.6,1);
+  background: var(--card-bg);
+}
+
+.day-content.expanded {
+  max-height: 2000px;
+  border-radius: 0 0 14px 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+} 
+
+/* Exercise card */
+.exercise-card {
+  background-color: var(--card-bg);
+  padding: 18px 18px 14px 18px;
+  border-bottom: 1px solid #222228;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  border-radius: 0;
+}
+
+.day-content .exercise-card:last-child {
+  border-bottom: none;
+  border-radius: 0 0 14px 14px;
+  margin-bottom: 0;
+} 
+
+/* Título del ejercicio */
+.exercise-title {
+  font-size: 1.04rem;
+  font-weight: 500;
+  color: var(--text-color);
+  padding-right: 80px;
+  margin-bottom: 2px;
+  letter-spacing: 0.01em;
+} 
+
+/* Contador */
+.counter {
+  font-variant-numeric: tabular-nums;
+  font-size: 1.02rem;
+  color: var(--secondary-text);
+  text-align: left;
+  margin-left: 2px;
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+} 
+
+/* Botones + y - */
+.button-group {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.button-group button {
+  width: 38px;
+  height: 38px;
+  font-size: 1.18rem;
+  border: 1.5px solid var(--primary-color);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--primary-color);
+  font-weight: 600;
+  outline: none;
+  transition: background 0.15s, color 0.15s, border 0.15s;
+}
+.button-group button:active,
+.button-group button:focus {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+}
+.button-group button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #222228;
+  color: #555;
+  border-color: #222228;
+} 
+
+.button-group button {
+  width: 36px;
+  height: 36px;
+  font-size: 1.1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 6px;
+  background: white;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.button-group button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Etiqueta de completado */
+.completion-badge {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background-color: var(--success-color);
+  color: white;
+  padding: 4px 12px 4px 12px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: none;
+  box-shadow: 0 1px 4px rgba(34,197,94,0.13);
+}
+
+.exercise-completed .completion-badge {
+  display: block;
+}
+
+.exercise-completed .counter {
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+/* Animaciones */
+.day-content,
+.exercise-card {
+  transition: all 0.2s ease;
+}
+
+/* Flecha del acordeón */
+.day-header span {
+  transition: transform 0.2s ease;
+  font-size: 1.2em;
+  color: var(--secondary-text);
+}
+
+.day-content.expanded + .day-header span {
+  transform: rotate(90deg);
+}
+
+.reset-btn {
+  width: 100%;
+  margin: 32px auto 0 auto;
+  display: block;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 1.08rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  padding: 16px 0;
+  box-shadow: 0 2px 8px rgba(10,132,255,0.10);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+}
+.reset-btn:hover, .reset-btn:focus {
+  background: #1769c7;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(10,132,255,0.18);
+}

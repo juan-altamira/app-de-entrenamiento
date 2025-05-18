@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutina Semanal - Offline SPA</title>
+    <meta name="theme-color" content="#317EFB"/>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Rutina de Entrenamiento</h1>
+        <div id="areaTrabajo" class="area-trabajo"></div>
+    </div>
+    <button id="resetCounters" class="reset-btn">Reiniciar todos los contadores</button>
+    <script src="script.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('service-worker.js');
+        });
+      }
+    </script>
+</body>
+</html>
