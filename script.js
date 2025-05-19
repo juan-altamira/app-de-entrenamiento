@@ -103,62 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Función para actualizar el estado del día
   function updateDayStatus(dayIndex, header) {
-    console.log(`Actualizando estado del día ${dayIndex}`);
     const dayCompleted = isDayCompleted(dayIndex);
-    console.log(`Día ${dayIndex} completado:`, dayCompleted);
-    
-    let dayCompleteBadge = header.querySelector('.day-complete-badge');
-    console.log('Badge actual:', dayCompleteBadge);
-    
-    if (dayCompleted) {
-      console.log('Mostrando badge de día completado');
-      if (!dayCompleteBadge) {
-        console.log('Creando nuevo badge');
-        dayCompleteBadge = document.createElement('div');
-        dayCompleteBadge.className = 'day-complete-badge';
-        dayCompleteBadge.textContent = 'Día Completado';
-        
-        // Obtener el título y la flecha
-        const title = header.querySelector('.day-title');
-        const arrow = header.querySelector('.arrow');
-        
-        // Limpiar el header
-        header.innerHTML = '';
-        
-        // Crear contenedor para título y badge
-        const titleContainer = document.createElement('div');
-        titleContainer.className = 'title-container';
-        
-        // Agregar título y badge al contenedor
-        if (title) titleContainer.appendChild(title);
-        titleContainer.appendChild(dayCompleteBadge);
-        
-        // Agregar contenedor y flecha al header
-        header.appendChild(titleContainer);
-        if (arrow) header.appendChild(arrow);
-      }
-      header.classList.add('day-header-completed');
-    } else {
-      console.log('Eliminando badge de día completado');
-      if (dayCompleteBadge) {
-        // Restaurar estructura original
-        const title = header.querySelector('.day-title');
-        const arrow = header.querySelector('.arrow');
-        const titleContainer = header.querySelector('.title-container');
-        
-        if (titleContainer) {
-          // Mover el título de vuelta al header
-          if (title) {
-            header.insertBefore(title, titleContainer);
-          }
-          // Eliminar el contenedor
-          titleContainer.remove();
-        }
-        
-        dayCompleteBadge.remove();
-      }
-      header.classList.remove('day-header-completed');
-    }
+    const badge = header.querySelector('.day-complete-badge');
+    if (badge) badge.style.display = dayCompleted ? 'inline-block' : 'none';
+    header.classList.toggle('day-header-completed', dayCompleted);
   }
 
   days.forEach((day, dayIndex) => {
@@ -167,14 +115,23 @@ document.addEventListener('DOMContentLoaded', () => {
     card.className = 'day-card';
     const header = document.createElement('div');
     header.className = 'day-header';
+    // Título del día
     const title = document.createElement('span');
     title.className = 'day-title';
     title.textContent = day.name;
-    header.appendChild(title);
-    const arrow = document.createElement('span'); 
+    // Badge de día completado (oculto inicialmente)
+    const dayBadge = document.createElement('span');
+    dayBadge.className = 'day-complete-badge';
+    dayBadge.textContent = 'Día Completado';
+    dayBadge.style.display = 'none';
+    dayBadge.style.marginLeft = '8px';
+    // Flecha de expansión
+    const arrow = document.createElement('span');
     arrow.className = 'arrow';
     arrow.textContent = '▸';
-    header.appendChild(arrow);
+    arrow.style.marginLeft = 'auto';
+    // Ensamblar header
+    header.append(title, dayBadge, arrow);
     const content = document.createElement('div'); content.className = 'day-content';
     header.addEventListener('click', () => {
       content.classList.toggle('expanded');
@@ -198,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
       completionBadge.textContent = 'Completado';
       exCard.appendChild(completionBadge);
       
-      const key = `rutina-${day.name}-${exIndex}`;
+      const key = `rutina-${dayIndex}-${exIndex}`;
       let count = parseInt(localStorage.getItem(key)) || 0;
       
       // Contador
