@@ -86,14 +86,94 @@ document.addEventListener('DOMContentLoaded', () => {
   const area = document.getElementById('areaTrabajo');
   area.innerHTML = '';
 
+  // Función para verificar si todos los ejercicios del día están completados
+  function isDayCompleted(dayIndex) {
+    console.log(`Verificando si el día ${dayIndex} está completo`);
+    const day = days[dayIndex];
+    const allCompleted = day.exercises.every((exercise, exIndex) => {
+      const key = `rutina-${dayIndex}-${exIndex}`;
+      const count = parseInt(localStorage.getItem(key) || '0');
+      const isComplete = count >= exercise.series;
+      console.log(`Ejercicio ${exIndex}: ${exercise.title} - ${count}/${exercise.series} - ${isComplete ? 'Completo' : 'Incompleto'}`);
+      return isComplete;
+    });
+    console.log(`Todos los ejercicios del día ${dayIndex} completados:`, allCompleted);
+    return allCompleted;
+  }
+
+  // Función para actualizar el estado del día
+  function updateDayStatus(dayIndex, header) {
+    console.log(`Actualizando estado del día ${dayIndex}`);
+    const dayCompleted = isDayCompleted(dayIndex);
+    console.log(`Día ${dayIndex} completado:`, dayCompleted);
+    
+    let dayCompleteBadge = header.querySelector('.day-complete-badge');
+    console.log('Badge actual:', dayCompleteBadge);
+    
+    if (dayCompleted) {
+      console.log('Mostrando badge de día completado');
+      if (!dayCompleteBadge) {
+        console.log('Creando nuevo badge');
+        dayCompleteBadge = document.createElement('div');
+        dayCompleteBadge.className = 'day-complete-badge';
+        dayCompleteBadge.textContent = 'Día Completado';
+        
+        // Obtener el título y la flecha
+        const title = header.querySelector('.day-title');
+        const arrow = header.querySelector('.arrow');
+        
+        // Limpiar el header
+        header.innerHTML = '';
+        
+        // Crear contenedor para título y badge
+        const titleContainer = document.createElement('div');
+        titleContainer.className = 'title-container';
+        
+        // Agregar título y badge al contenedor
+        if (title) titleContainer.appendChild(title);
+        titleContainer.appendChild(dayCompleteBadge);
+        
+        // Agregar contenedor y flecha al header
+        header.appendChild(titleContainer);
+        if (arrow) header.appendChild(arrow);
+      }
+      header.classList.add('day-header-completed');
+    } else {
+      console.log('Eliminando badge de día completado');
+      if (dayCompleteBadge) {
+        // Restaurar estructura original
+        const title = header.querySelector('.day-title');
+        const arrow = header.querySelector('.arrow');
+        const titleContainer = header.querySelector('.title-container');
+        
+        if (titleContainer) {
+          // Mover el título de vuelta al header
+          if (title) {
+            header.insertBefore(title, titleContainer);
+          }
+          // Eliminar el contenedor
+          titleContainer.remove();
+        }
+        
+        dayCompleteBadge.remove();
+      }
+      header.classList.remove('day-header-completed');
+    }
+  }
+
   days.forEach((day, dayIndex) => {
     // Día card
     const card = document.createElement('div');
     card.className = 'day-card';
     const header = document.createElement('div');
     header.className = 'day-header';
-    header.textContent = day.name;
-    const arrow = document.createElement('span'); arrow.textContent = '▸';
+    const title = document.createElement('span');
+    title.className = 'day-title';
+    title.textContent = day.name;
+    header.appendChild(title);
+    const arrow = document.createElement('span'); 
+    arrow.className = 'arrow';
+    arrow.textContent = '▸';
     header.appendChild(arrow);
     const content = document.createElement('div'); content.className = 'day-content';
     header.addEventListener('click', () => {
@@ -171,6 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Actualizar estado del botón de menos
         btnMinus.disabled = count <= 0;
+        
+        // Actualizar estado del día
+        updateDayStatus(dayIndex, header);
       }
       
       // Estado inicial
@@ -179,6 +262,9 @@ document.addEventListener('DOMContentLoaded', () => {
         btnPlus.disabled = true;
       }
       btnMinus.disabled = count <= 0;
+      
+      // Verificar estado inicial del día
+      updateDayStatus(dayIndex, header);
       
       // Añadir elementos al DOM
       exCard.append(counter, btnGroup);
