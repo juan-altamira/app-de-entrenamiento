@@ -29,42 +29,54 @@ body {
 }
 
 .container > h1 {
-  font-size: 1.5rem;
-  color: var(--text-color);
+  font-size: 1.7rem;
+  color: #ffffff;
   text-align: center;
-  margin: 0 0 16px 0;
-  padding: 16px 0;
-  font-weight: 600;
-  background-color: var(--card-bg);
+  margin: 0 0 20px 0;
+  padding: 18px;
+  font-weight: 700;
+  background: #0f0f1a;
   border-radius: 12px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid #2a2a40;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 } 
 
 /* Día card */
 .day-card {
-  background-color: var(--card-bg);
-  border-radius: 14px;
-  margin-bottom: 18px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  background: #141420;
+  border: 1px solid #33334d;
+  border-radius: 12px;
+  margin-bottom: 20px;
   overflow: hidden;
-  border: 1px solid #26262c;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+}
+
+.day-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
 } 
 
 /* Encabezado de día */
 .day-header {
-  padding: 18px 18px 18px 22px;
-  background-color: var(--day-header-bg);
-  color: var(--text-color);
-  font-size: 1.16rem;
+  background: #0a0a12;
+  color: #ffffff;
+  padding: 18px 20px;
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
-  user-select: none;
   font-weight: 600;
-  border-bottom: 1px solid #222228;
-  border-radius: 14px 14px 0 0;
-  letter-spacing: 0.01em;
+  font-size: 1.15rem;
+  user-select: none;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #33334d;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.day-header:hover {
+  background: #0f0f1a;
 }
 
 .day-header span {
@@ -94,14 +106,18 @@ body {
 
 /* Exercise card */
 .exercise-card {
-  background-color: var(--card-bg);
-  padding: 18px 18px 14px 18px;
-  border-bottom: 1px solid #222228;
+  background-color: #1a1a26;
+  padding: 16px 18px;
+  border-bottom: 1px solid #252538;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   position: relative;
-  border-radius: 0;
+  transition: all 0.2s ease;
+}
+
+.exercise-card:hover {
+  background-color: #1f1f2e;
 }
 
 .day-content .exercise-card:last-child {

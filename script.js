@@ -39,13 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
     ] },
     { name: 'Miércoles', exercises: [
       { title: 'Remo en Maquina', series: 3 },
-      { title: 'Remo en Maquina Concentrado (2x12 + 4)', series: 3 },
+      { title: 'Remo en Maquina Concentrado', series: 3 },
       { title: 'Biceps con Mancuernas', series: 3 },
       { title: 'Remo Alto', series: 4 },
       { title: 'Jalón al Pecho', series: 3 },
       { title: 'Trapecio con Fat Grip', series: 6 },
       { title: 'Banco Scott en Polea', series: 3 },
-      { title: 'Vuelos Posteriores (3x12) + Finisher', series: 3 },
+      { title: 'Vuelos Posteriores + Finisher', series: 3 },
       { title: 'Banco Inclinado con mancuernas', series: 3 }
     ] },
     { name: 'Jueves', exercises: [
@@ -72,13 +72,13 @@ document.addEventListener('DOMContentLoaded', () => {
     ] },
     { name: 'Sábado', exercises: [
       { title: 'Remo en Maquina', series: 4 },
-      { title: 'Remo en Maquina Concentrado (2x12 + 4)', series: 3 },
+      { title: 'Remo en Maquina Concentrado', series: 3 },
       { title: 'Biceps con Mancuernas', series: 4 },
       { title: 'Remo Alto', series: 5 },
       { title: 'Jalón al Pecho', series: 3 },
       { title: 'Trapecio con Fat Grip', series: 7 },
       { title: 'Banco Scott', series: 4 },
-      { title: 'Vuelos Posteriores (4x12) + 2 Finisher', series: 4 },
+      { title: 'Vuelos Posteriores', series: 4 },
       { title: 'Biceps en Banco Inclinado', series: 4 }
     ] }
   ];
