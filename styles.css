@@ -99,24 +99,27 @@ body {
 .day-complete-badge {
   display: none;
   align-items: center;
+  justify-content: center; /* Centrar texto horizontalmente */
   background: #1a8a3a; /* Verde más oscuro para mejor contraste */
   color: white;
-  padding: 4px 14px; /* Un poco más de padding horizontal */
+  padding: 0 12px; /* Padding horizontal reducido */
   border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 800; /* Texto un poco más grueso */
-  letter-spacing: 0.5px;
+  font-size: 0.78rem; /* Tamaño de fuente más pequeño */
+  font-weight: 800;
+  letter-spacing: 0.4px; /* Menor espaciado entre letras */
   text-transform: uppercase;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.3s ease;
   white-space: nowrap;
-  height: 28px;
-  margin-left: 14px; /* Más espacio del título */
+  height: 24px; /* Altura reducida */
+  line-height: 22px; /* Ajustado a la nueva altura */
+  margin-left: 12px; /* Menor margen izquierdo */
   position: relative;
-  left: 2px; /* Desplazamiento sutil a la derecha */
+  left: 2px;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 .day-complete-badge:hover {
