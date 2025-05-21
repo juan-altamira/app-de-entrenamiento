@@ -69,7 +69,7 @@ body {
   justify-content: space-between;
   align-items: center;
   font-weight: 600;
-  font-size: 1.15rem;
+  font-size: 0.8rem;
   user-select: none;
   transition: all 0.2s ease;
   border-bottom: 1px solid #33334d;
@@ -100,22 +100,22 @@ body {
   display: none;
   align-items: center;
   justify-content: center; /* Centrar texto horizontalmente */
-  background: #1a8a3a; /* Verde más oscuro para mejor contraste */
+  background: #03551a; /* Verde más oscuro para mejor contraste */
   color: white;
-  padding: 0 12px; /* Padding horizontal reducido */
-  border-radius: 20px;
-  font-size: 0.78rem; /* Tamaño de fuente más pequeño */
-  font-weight: 800;
-  letter-spacing: 0.4px; /* Menor espaciado entre letras */
+  padding: 4px 10px 8px; /* Padding reducido */
+  border-radius: 16px; /* Radio de borde más pequeño */
+  font-size: 0.7rem; /* Tamaño de fuente reducido */
+  font-weight: 700; /* Peso de fuente ligeramente menor */
+  letter-spacing: 0.3px; /* Menor espaciado entre letras */
   text-transform: uppercase;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); /* Sombra más sutil */
+  border: 1px solid rgba(255, 255, 255, 0.08);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.3s ease;
   white-space: nowrap;
-  height: 24px; /* Altura reducida */
-  line-height: 22px; /* Ajustado a la nueva altura */
-  margin-left: 12px; /* Menor margen izquierdo */
+  height: 22px; /* Altura reducida */
+  line-height: 12px; /* Ajustado para el padding */
+  margin-left: 10px; /* Margen izquierdo reducido */
   position: relative;
   left: 2px;
   transition: all 0.2s ease;

@@ -15,74 +15,70 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const days = [
-    { name: 'Lunes', exercises: [
-      { title: 'Sentadillas', series: 3 },
-      { title: 'Peso Muerto Rumano', series: 4 },
-      { title: 'Extensiones de Cuádriceps', series: 4 },
-      { title: 'Curl Femoral', series: 3 },
-      { title: 'Gemelos Parado', series: 6 },
-      { title: 'Gemelos Frontal', series: 4 },
-      { title: 'Crunch Abdominal', series: 6 },
-      { title: 'Oblicuos', series: 4 }
+    { name: 'LUNES', exercises: [
+      { title: 'Sentadillas (3x5)', series: 3 },
+      { title: 'Peso Muerto Rumano (4x12)', series: 4 },
+      { title: 'Extensiones de Cuádriceps (4x12)', series: 4 },
+      { title: 'Curl Femoral (3x12)', series: 3 },
+      { title: 'Gemelos Parado (6x12)', series: 6 },
+      { title: 'Gemelos Frontal (4x8)', series: 4 },
+      { title: 'Oblicuos (4x12)', series: 4 }
     ] },
-    { name: 'Martes', exercises: [
-      { title: 'Banco Plano', series: 3 },
-      { title: 'Press Militar en Maquina', series: 3 },
-      { title: 'Press Militar con Mancuernas Concentrado', series: 2 },
-      { title: 'Cruces de Polea para Pectoral Inferior', series: 3 },
-      { title: 'Cruces de Polea para Pectoral Superior', series: 3 },
-      { title: 'Tríceps Polea Alta', series: 4 },
-      { title: 'Apertura con Maquina con pausa al final', series: 3 },
-      { title: 'Vuelos Laterales', series: 3 },
-      { title: 'Tríceps en Maquina Smith', series: 4 },
-      { title: 'Vuelos Frontales', series: 2 }
+    { name: 'MARTES', exercises: [
+      { title: 'Banco Plano (3x8)', series: 3 },
+      { title: 'Press Militar en Maquina (3x8)', series: 3 },
+      { title: 'Press Militar con Mancuernas Concentrado (2x12)', series: 2 },
+      { title: 'Cruces de Polea para Pectoral Inferior (3x10)', series: 3 },
+      { title: 'Cruces de Polea para Pectoral Superior (3x12)', series: 3 },
+      { title: 'Tríceps Polea Alta (4x10)', series: 4 },
+      { title: 'Apertura con Maquina con pausa al final (3x12)', series: 3 },
+      { title: 'Vuelos Laterales (3x12)', series: 3 },
+      { title: 'Tríceps en Maquina Smith (4x12)', series: 4 },
+      { title: 'Vuelos Frontales (2x12)', series: 2 }
     ] },
-    { name: 'Miércoles', exercises: [
-      { title: 'Remo en Maquina', series: 3 },
-      { title: 'Remo en Maquina Concentrado', series: 3 },
-      { title: 'Biceps con Mancuernas', series: 3 },
-      { title: 'Remo Alto', series: 4 },
-      { title: 'Jalón al Pecho', series: 3 },
-      { title: 'Trapecio con Fat Grip', series: 6 },
-      { title: 'Banco Scott en Polea', series: 3 },
-      { title: 'Vuelos Posteriores + Finisher', series: 3 },
-      { title: 'Banco Inclinado con mancuernas', series: 3 }
+    { name: 'MIÉRCOLES', exercises: [
+      { title: 'Remo en Maquina (3x8)', series: 3 },
+      { title: 'Remo en Maquina Concentrado (2x12 + 4)', series: 2 },
+      { title: 'Biceps con Mancuernas (3x8)', series: 3 },
+      { title: 'Remo Alto (5x10)', series: 5 },
+      { title: 'Jalón al Pecho (2x12)', series: 2 },
+      { title: 'Trapecio con Fat Grip (6x10)', series: 6 },
+      { title: 'Banco Scott en Polea (3x12)', series: 3 },
+      { title: 'Vuelos Posteriores (3x12) + Finisher', series: 3 },
+      { title: 'Banco Inclinado con mancuernas (3x12)', series: 3 }
     ] },
-    { name: 'Jueves', exercises: [
-      { title: 'Sentadillas', series: 3 },
-      { title: 'Empuje de Cadera + Finisher', series: 5 },
-      { title: 'Extensiones de Cuádriceps', series: 6 },
-      { title: 'Curl Femoral', series: 4 },
-      { title: 'Gemelos Parado', series: 8 },
-      { title: 'Gemelos Frontal', series: 4 },
-      { title: 'Crunch Abdominal', series: 6 },
-      { title: 'Oblicuos', series: 4 }
+    { name: 'JUEVES', exercises: [
+      { title: 'Sentadillas (3x5)', series: 3 },
+      { title: 'Empuje de Cadera (5x12) + Finisher', series: 5 },
+      { title: 'Extensiones de Cuádriceps (6x12)', series: 6 },
+      { title: 'Curl Femoral (4x12)', series: 4 },
+      { title: 'Gemelos Parado (8x12)', series: 8 },
+      { title: 'Gemelos Frontal (4x8)', series: 4 },
+      { title: 'Oblicuos (4x12)', series: 4 }
     ] },
-    { name: 'Viernes', exercises: [
-      { title: 'Banco Plano', series: 3 },
-      { title: 'Press Militar en Maquina', series: 3 },
-      { title: 'Press Militar Concentrado', series: 2 },
-      { title: 'Pecho en Maquina Hammer', series: 3 },
-      { title: 'Apertura con Maquina con pausa al final', series: 5 },
-      { title: 'Vuelos Laterales + Finisher', series: 5 },
-      { title: 'Tríceps en Polea Alta', series: 5 },
-      { title: 'Pecho superior en polea', series: 3 },
-      { title: 'Tríceps en Maquina Smith', series: 6 },
-      { title: 'Vuelos Frontales', series: 3 }
+    { name: 'VIERNES', exercises: [
+      { title: 'Banco Plano (3x8)', series: 3 },
+      { title: 'Press Militar en Maquina (3x8)', series: 3 },
+      { title: 'Press Militar Mancuernas (2x12)', series: 2 },
+      { title: 'Cruces de Polea para Pectoral Inferior (3x10)', series: 3 },
+      { title: 'Apertura en Maquina con pausa (5x12)', series: 5 },
+      { title: 'Vuelos Laterales (5x12) + Finisher', series: 5 },
+      { title: 'Tríceps en Polea Alta (6x12)', series: 6 },
+      { title: 'Pecho superior en polea (3x12)', series: 3 },
+      { title: 'Tríceps en Maquina Smith (6x12)', series: 6 },
+      { title: 'Vuelos Frontales (3x12)', series: 3 }
     ] },
-    { name: 'Sábado', exercises: [
-      { title: 'Remo en Maquina', series: 4 },
-      { title: 'Remo en Maquina Concentrado', series: 3 },
-      { title: 'Biceps con Mancuernas', series: 4 },
-      { title: 'Remo Alto', series: 5 },
-      { title: 'Jalón al Pecho', series: 3 },
-      { title: 'Trapecio con Fat Grip', series: 7 },
-      { title: 'Banco Scott', series: 4 },
-      { title: 'Vuelos Posteriores', series: 4 },
-      { title: 'Biceps en Banco Inclinado', series: 4 }
-    ] }
-  ];
-
+    { name: 'SÁBADO', exercises: [
+      { title: 'Remo en Maquina (4x8)', series: 4 },
+      { title: 'Remo en Maquina Concentrado (2x12 + 4)', series: 2 },
+      { title: 'Biceps con Mancuernas (4x8)', series: 4 },
+      { title: 'Remo Alto (6x10)', series: 6 },
+      { title: 'Jalón al Pecho (2x12)', series: 2 },
+      { title: 'Trapecio con Fat Grip (7x10)', series: 7 },
+      { title: 'Banco Scott (4x12)', series: 4 },
+      { title: 'Vuelos Posteriores (4x12) + 2 Finisher', series: 4 },
+      { title: 'Biceps en Banco Inclinado (4x12)', series: 4 }
+    ] }];
   const area = document.getElementById('areaTrabajo');
   area.innerHTML = '';
 
