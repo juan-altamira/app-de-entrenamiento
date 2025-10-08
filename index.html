@@ -11,9 +11,30 @@
 <body>
     <div class="container">
         <h1>Rutina de Entrenamiento</h1>
+        <div class="toolbar">
+            <button id="openEditor" class="edit-btn">Editar rutina</button>
+        </div>
         <div id="areaTrabajo" class="area-trabajo"></div>
     </div>
     <button id="resetCounters" class="reset-btn">Reiniciar todos los contadores</button>
+    <div id="editorOverlay" class="editor-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
+        <div class="editor-panel">
+            <div class="editor-header">
+                <h2 id="editorTitle">Editar rutina</h2>
+                <button id="closeEditor" class="icon-btn" aria-label="Cerrar panel de edición">×</button>
+            </div>
+            <div class="editor-body">
+                <label for="daySelector" class="editor-label">Seleccioná el día</label>
+                <select id="daySelector" class="day-selector"></select>
+                <div id="exerciseList" class="exercise-config-list"></div>
+                <button id="addExerciseBtn" class="add-exercise-btn">Agregar ejercicio</button>
+            </div>
+            <div class="editor-footer">
+                <button id="saveRoutineBtn" class="save-btn">Guardar cambios</button>
+                <button id="cancelEditorBtn" class="cancel-btn">Cancelar</button>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
     <script>
       if ('serviceWorker' in navigator) {

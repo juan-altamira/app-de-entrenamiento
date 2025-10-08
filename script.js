@@ -1,101 +1,284 @@
 // SPA de Rutina Semanal - offline, móvil
 document.addEventListener('DOMContentLoaded', () => {
-  // Botón de reinicio de contadores
-  const resetBtn = document.getElementById('resetCounters');
-  if (resetBtn) {
-    resetBtn.addEventListener('click', () => {
-      if (confirm('¿Seguro que quieres reiniciar todos los contadores?')) {
-        // Elimina solo las claves de rutina
-        Object.keys(localStorage).forEach(k => {
-          if (k.startsWith('rutina-')) localStorage.removeItem(k);
-        });
-        location.reload();
-      }
-    });
-  }
+  const ROUTINE_STORAGE_KEY = 'rutina-config';
+  const COUNT_PREFIX = 'rutina-count-';
 
-  const days = [
+  const defaultRoutine = [
     { name: 'LUNES', exercises: [
-      { title: 'Sentadillas (3x5)', series: 3 },
-      { title: 'Peso Muerto Rumano (4x12)', series: 4 },
-      { title: 'Extensiones de Cuádriceps (4x12)', series: 4 },
-      { title: 'Curl Femoral (3x12)', series: 3 },
-      { title: 'Gemelos Parado (6x12)', series: 6 },
-      { title: 'Gemelos Frontal (4x8)', series: 4 },
-      { title: 'Oblicuos (4x12)', series: 4 }
+      { id: 'lunes-sentadillas', title: 'Sentadillas (3x5)', series: 3 },
+      { id: 'lunes-peso-muerto-rumano', title: 'Peso Muerto Rumano (4x12)', series: 4 },
+      { id: 'lunes-ext-cuadriceps', title: 'Extensiones de Cuádriceps (4x12)', series: 4 },
+      { id: 'lunes-curl-femoral', title: 'Curl Femoral (3x12)', series: 3 },
+      { id: 'lunes-gemelos-parado', title: 'Gemelos Parado (6x12)', series: 6 },
+      { id: 'lunes-gemelos-frontal', title: 'Gemelos Frontal (4x8)', series: 4 },
+      { id: 'lunes-oblicuos', title: 'Oblicuos (4x12)', series: 4 }
     ] },
     { name: 'MARTES', exercises: [
-      { title: 'Banco Plano (3x8)', series: 3 },
-      { title: 'Press Militar en Maquina (3x8)', series: 3 },
-      { title: 'Press Militar con Mancuernas Concentrado (2x12)', series: 2 },
-      { title: 'Cruces de Polea para Pectoral Inferior (3x10)', series: 3 },
-      { title: 'Cruces de Polea para Pectoral Superior (3x12)', series: 3 },
-      { title: 'Tríceps Polea Alta (4x10)', series: 4 },
-      { title: 'Apertura con Maquina con pausa al final (3x12)', series: 3 },
-      { title: 'Vuelos Laterales (3x12)', series: 3 },
-      { title: 'Tríceps en Maquina Smith (4x12)', series: 4 },
-      { title: 'Vuelos Frontales (2x12)', series: 2 }
+      { id: 'martes-banco-plano', title: 'Banco Plano (3x8)', series: 3 },
+      { id: 'martes-press-militar-maquina', title: 'Press Militar en Maquina (3x8)', series: 3 },
+      { id: 'martes-press-mancuernas-concentrado', title: 'Press Militar con Mancuernas Concentrado (2x12)', series: 2 },
+      { id: 'martes-cruces-polea-inferior', title: 'Cruces de Polea para Pectoral Inferior (3x10)', series: 3 },
+      { id: 'martes-cruces-polea-superior', title: 'Cruces de Polea para Pectoral Superior (3x12)', series: 3 },
+      { id: 'martes-triceps-polea-alta', title: 'Tríceps Polea Alta (4x10)', series: 4 },
+      { id: 'martes-apertura-maquina', title: 'Apertura con Maquina con pausa al final (3x12)', series: 3 },
+      { id: 'martes-vuelos-laterales', title: 'Vuelos Laterales (3x12)', series: 3 },
+      { id: 'martes-triceps-smith', title: 'Tríceps en Maquina Smith (4x12)', series: 4 },
+      { id: 'martes-vuelos-frontales', title: 'Vuelos Frontales (2x12)', series: 2 }
     ] },
     { name: 'MIÉRCOLES', exercises: [
-      { title: 'Remo en Maquina (3x8)', series: 3 },
-      { title: 'Remo en Maquina Concentrado (2x12 + 4)', series: 2 },
-      { title: 'Biceps con Mancuernas (3x8)', series: 3 },
-      { title: 'Remo Alto (5x10)', series: 5 },
-      { title: 'Trapecio con Fat Grip (6x10)', series: 6 },
-      { title: 'Banco Scott en Polea (3x12)', series: 3 },
-      { title: 'Vuelos Posteriores (3x12) + Finisher', series: 3 },
-      { title: 'Banco Inclinado con mancuernas (3x12)', series: 3 }
+      { id: 'miercoles-remo-maquina', title: 'Remo en Maquina (3x8)', series: 3 },
+      { id: 'miercoles-remo-maquina-concentrado', title: 'Remo en Maquina Concentrado (2x12 + 4)', series: 2 },
+      { id: 'miercoles-biceps-mancuernas', title: 'Biceps con Mancuernas (3x8)', series: 3 },
+      { id: 'miercoles-remo-alto', title: 'Remo Alto (5x10)', series: 5 },
+      { id: 'miercoles-trapecio-fat-grip', title: 'Trapecio con Fat Grip (6x10)', series: 6 },
+      { id: 'miercoles-banco-scott-polea', title: 'Banco Scott en Polea (3x12)', series: 3 },
+      { id: 'miercoles-vuelos-posteriores', title: 'Vuelos Posteriores (3x12) + Finisher', series: 3 },
+      { id: 'miercoles-banco-inclinado-mancuernas', title: 'Banco Inclinado con mancuernas (3x12)', series: 3 }
     ] },
     { name: 'JUEVES', exercises: [
-      { title: 'Sentadillas (3x5)', series: 3 },
-      { title: 'Empuje de Cadera (5x12) + Finisher', series: 5 },
-      { title: 'Extensiones de Cuádriceps (6x12)', series: 6 },
-      { title: 'Curl Femoral (4x12)', series: 4 },
-      { title: 'Gemelos Parado (8x12)', series: 8 },
-      { title: 'Gemelos Frontal (4x8)', series: 4 },
-      { title: 'Oblicuos (4x12)', series: 4 }
+      { id: 'jueves-sentadillas', title: 'Sentadillas (3x5)', series: 3 },
+      { id: 'jueves-empuje-cadera', title: 'Empuje de Cadera (5x12) + Finisher', series: 5 },
+      { id: 'jueves-ext-cuadriceps', title: 'Extensiones de Cuádriceps (6x12)', series: 6 },
+      { id: 'jueves-curl-femoral', title: 'Curl Femoral (4x12)', series: 4 },
+      { id: 'jueves-gemelos-parado', title: 'Gemelos Parado (8x12)', series: 8 },
+      { id: 'jueves-gemelos-frontal', title: 'Gemelos Frontal (4x8)', series: 4 },
+      { id: 'jueves-oblicuos', title: 'Oblicuos (4x12)', series: 4 }
     ] },
     { name: 'VIERNES', exercises: [
-      { title: 'Banco Plano (3x8)', series: 3 },
-      { title: 'Press Militar en Maquina (3x8)', series: 3 },
-      { title: 'Press Militar Mancuernas (2x12)', series: 2 },
-      { title: 'Cruces de Polea para Pectoral Inferior (3x10)', series: 3 },
-      { title: 'Apertura en Maquina con pausa (5x12)', series: 5 },
-      { title: 'Vuelos Laterales (5x12) + Finisher', series: 5 },
-      { title: 'Tríceps en Polea Alta (6x12)', series: 6 },
-      { title: 'Pecho superior en polea (3x12)', series: 3 },
-      { title: 'Tríceps en Maquina Smith (6x12)', series: 6 },
-      { title: 'Vuelos Frontales (3x12)', series: 3 }
+      { id: 'viernes-banco-plano', title: 'Banco Plano (3x8)', series: 3 },
+      { id: 'viernes-press-militar-maquina', title: 'Press Militar en Maquina (3x8)', series: 3 },
+      { id: 'viernes-press-militar-mancuernas', title: 'Press Militar Mancuernas (2x12)', series: 2 },
+      { id: 'viernes-cruces-polea-inferior', title: 'Cruces de Polea para Pectoral Inferior (3x10)', series: 3 },
+      { id: 'viernes-apertura-maquina', title: 'Apertura en Maquina con pausa (5x12)', series: 5 },
+      { id: 'viernes-vuelos-laterales', title: 'Vuelos Laterales (5x12) + Finisher', series: 5 },
+      { id: 'viernes-triceps-polea-alta', title: 'Tríceps en Polea Alta (6x12)', series: 6 },
+      { id: 'viernes-pecho-superior', title: 'Pecho superior en polea (3x12)', series: 3 },
+      { id: 'viernes-triceps-smith', title: 'Tríceps en Maquina Smith (6x12)', series: 6 },
+      { id: 'viernes-vuelos-frontales', title: 'Vuelos Frontales (3x12)', series: 3 }
     ] },
     { name: 'SÁBADO', exercises: [
-      { title: 'Remo en Maquina (4x8)', series: 4 },
-      { title: 'Remo en Maquina Concentrado (2x12 + 4)', series: 2 },
-      { title: 'Biceps con Mancuernas (4x8)', series: 4 },
-      { title: 'Remo Alto (6x10)', series: 6 },
-      { title: 'Trapecio con Fat Grip (7x10)', series: 7 },
-      { title: 'Banco Scott (4x12)', series: 4 },
-      { title: 'Vuelos Posteriores (4x12) + 2 Finisher', series: 4 },
-      { title: 'Biceps en Banco Inclinado (4x12)', series: 4 }
-    ] }];
-  const area = document.getElementById('areaTrabajo');
-  area.innerHTML = '';
+      { id: 'sabado-remo-maquina', title: 'Remo en Maquina (4x8)', series: 4 },
+      { id: 'sabado-remo-maquina-concentrado', title: 'Remo en Maquina Concentrado (2x12 + 4)', series: 2 },
+      { id: 'sabado-biceps-mancuernas', title: 'Biceps con Mancuernas (4x8)', series: 4 },
+      { id: 'sabado-remo-alto', title: 'Remo Alto (6x10)', series: 6 },
+      { id: 'sabado-trapecio-fat-grip', title: 'Trapecio con Fat Grip (7x10)', series: 7 },
+      { id: 'sabado-banco-scott', title: 'Banco Scott (4x12)', series: 4 },
+      { id: 'sabado-vuelos-posteriores', title: 'Vuelos Posteriores (4x12) + 2 Finisher', series: 4 },
+      { id: 'sabado-biceps-banco-inclinado', title: 'Biceps en Banco Inclinado (4x12)', series: 4 }
+    ] }
+  ];
 
-  // Función para verificar si todos los ejercicios del día están completados
-  function isDayCompleted(dayIndex) {
-    console.log(`Verificando si el día ${dayIndex} está completo`);
-    const day = days[dayIndex];
-    const allCompleted = day.exercises.every((exercise, exIndex) => {
-      const key = `rutina-${dayIndex}-${exIndex}`;
-      const count = parseInt(localStorage.getItem(key) || '0');
-      const isComplete = count >= exercise.series;
-      console.log(`Ejercicio ${exIndex}: ${exercise.title} - ${count}/${exercise.series} - ${isComplete ? 'Completo' : 'Incompleto'}`);
-      return isComplete;
-    });
-    console.log(`Todos los ejercicios del día ${dayIndex} completados:`, allCompleted);
-    return allCompleted;
+  const area = document.getElementById('areaTrabajo');
+  const resetBtn = document.getElementById('resetCounters');
+  const openEditorBtn = document.getElementById('openEditor');
+  const overlay = document.getElementById('editorOverlay');
+  const closeEditorBtn = document.getElementById('closeEditor');
+  const cancelEditorBtn = document.getElementById('cancelEditorBtn');
+  const saveRoutineBtn = document.getElementById('saveRoutineBtn');
+  const daySelector = document.getElementById('daySelector');
+  const exerciseList = document.getElementById('exerciseList');
+  const addExerciseBtn = document.getElementById('addExerciseBtn');
+
+  let routine = loadRoutine();
+  let tempRoutine = null;
+
+  cleanupLegacyCounters();
+  renderRoutine();
+  setupResetButton();
+  setupEditorEvents();
+
+  function loadRoutine() {
+    const stored = localStorage.getItem(ROUTINE_STORAGE_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        return sanitizeRoutine(parsed);
+      } catch (error) {
+        console.warn('No se pudo cargar la rutina almacenada, se usará la predeterminada.', error);
+        localStorage.removeItem(ROUTINE_STORAGE_KEY);
+      }
+    }
+    return sanitizeRoutine(defaultRoutine);
   }
 
-  // Función para actualizar el estado del día
+  function sanitizeRoutine(inputRoutine) {
+    return cloneRoutine(inputRoutine).map(day => {
+      const safeName = day.name || 'DÍA';
+      const exercises = Array.isArray(day.exercises) ? day.exercises : [];
+      return {
+        name: safeName,
+        exercises: exercises.map(exercise => ({
+          id: exercise.id || generateExerciseId(safeName),
+          title: (exercise.title || '').trim() || 'Ejercicio sin título',
+          series: normalizeSeries(exercise.series)
+        }))
+      };
+    });
+  }
+
+  function normalizeSeries(value) {
+    const parsed = parseInt(value, 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+  }
+
+  function cloneRoutine(data) {
+    return JSON.parse(JSON.stringify(data));
+  }
+
+  function cleanupLegacyCounters() {
+    const pattern = /^rutina-\d+-\d+$/;
+    const toRemove = [];
+    for (let i = 0; i < localStorage.length; i += 1) {
+      const key = localStorage.key(i);
+      if (key && pattern.test(key)) {
+        toRemove.push(key);
+      }
+    }
+    toRemove.forEach(key => localStorage.removeItem(key));
+  }
+
+  function renderRoutine() {
+    if (!area) return;
+    area.innerHTML = '';
+
+    routine.forEach((day, dayIndex) => {
+      const card = document.createElement('div');
+      card.className = 'day-card';
+
+      const header = document.createElement('div');
+      header.className = 'day-header';
+
+      const title = document.createElement('span');
+      title.className = 'day-title';
+      title.textContent = day.name;
+
+      const dayBadge = document.createElement('span');
+      dayBadge.className = 'day-complete-badge';
+      dayBadge.textContent = 'Día Completado';
+      dayBadge.style.display = 'none';
+      dayBadge.style.marginLeft = '8px';
+
+      const arrow = document.createElement('span');
+      arrow.className = 'arrow';
+      arrow.textContent = '▸';
+      arrow.style.marginLeft = 'auto';
+
+      header.append(title, dayBadge, arrow);
+
+      const content = document.createElement('div');
+      content.className = 'day-content';
+
+      header.addEventListener('click', () => {
+        content.classList.toggle('expanded');
+        arrow.textContent = content.classList.contains('expanded') ? '▾' : '▸';
+      });
+
+      if (day.exercises.length === 0) {
+        const emptyMessage = document.createElement('div');
+        emptyMessage.className = 'exercise-card';
+        emptyMessage.textContent = 'No hay ejercicios configurados para este día.';
+        content.appendChild(emptyMessage);
+      } else {
+        day.exercises.forEach(exercise => {
+          const exCard = document.createElement('div');
+          exCard.className = 'exercise-card';
+
+          const titleEl = document.createElement('div');
+          titleEl.className = 'exercise-title';
+          titleEl.textContent = exercise.title;
+          exCard.appendChild(titleEl);
+
+          const completionBadge = document.createElement('div');
+          completionBadge.className = 'completion-badge';
+          completionBadge.textContent = 'Completado';
+          exCard.appendChild(completionBadge);
+
+          let count = getExerciseCount(exercise);
+          if (count > exercise.series) {
+            count = exercise.series;
+            setExerciseCount(exercise, count);
+          }
+
+          const counter = document.createElement('div');
+          counter.className = 'counter';
+          counter.textContent = `${count} / ${exercise.series}`;
+
+          const btnGroup = document.createElement('div');
+          btnGroup.className = 'button-group';
+
+          const btnMinus = document.createElement('button');
+          btnMinus.textContent = '–';
+
+          const btnPlus = document.createElement('button');
+          btnPlus.textContent = '+';
+
+          [btnMinus, btnPlus].forEach(btn => {
+            btn.style.touchAction = 'manipulation';
+          });
+
+          btnMinus.addEventListener('click', () => {
+            if (count > 0) {
+              count -= 1;
+              updateCounterState();
+            }
+          });
+
+          btnPlus.addEventListener('click', () => {
+            if (count < exercise.series) {
+              count += 1;
+              updateCounterState();
+            }
+          });
+
+          btnGroup.append(btnMinus, btnPlus);
+
+          function updateCounterState() {
+            setExerciseCount(exercise, count);
+            counter.textContent = `${count} / ${exercise.series}`;
+            if (count >= exercise.series) {
+              exCard.classList.add('exercise-completed');
+              btnPlus.disabled = true;
+            } else {
+              exCard.classList.remove('exercise-completed');
+              btnPlus.disabled = false;
+            }
+            btnMinus.disabled = count <= 0;
+            updateDayStatus(dayIndex, header);
+          }
+
+          if (count >= exercise.series) {
+            exCard.classList.add('exercise-completed');
+            btnPlus.disabled = true;
+          }
+          btnMinus.disabled = count <= 0;
+
+          exCard.append(counter, btnGroup);
+          content.appendChild(exCard);
+        });
+      }
+
+      card.append(header, content);
+      area.appendChild(card);
+      updateDayStatus(dayIndex, header);
+    });
+  }
+
+  function getExerciseCount(exercise) {
+    const raw = localStorage.getItem(`${COUNT_PREFIX}${exercise.id}`);
+    const value = parseInt(raw, 10);
+    return Number.isFinite(value) && value > 0 ? value : 0;
+  }
+
+  function setExerciseCount(exercise, value) {
+    localStorage.setItem(`${COUNT_PREFIX}${exercise.id}`, String(value));
+  }
+
+  function isDayCompleted(dayIndex) {
+    const day = routine[dayIndex];
+    if (!day || day.exercises.length === 0) return false;
+    return day.exercises.every(exercise => getExerciseCount(exercise) >= exercise.series);
+  }
+
   function updateDayStatus(dayIndex, header) {
     const dayCompleted = isDayCompleted(dayIndex);
     const badge = header.querySelector('.day-complete-badge');
@@ -103,126 +286,236 @@ document.addEventListener('DOMContentLoaded', () => {
     header.classList.toggle('day-header-completed', dayCompleted);
   }
 
-  days.forEach((day, dayIndex) => {
-    // Día card
-    const card = document.createElement('div');
-    card.className = 'day-card';
-    const header = document.createElement('div');
-    header.className = 'day-header';
-    // Título del día
-    const title = document.createElement('span');
-    title.className = 'day-title';
-    title.textContent = day.name;
-    // Badge de día completado (oculto inicialmente)
-    const dayBadge = document.createElement('span');
-    dayBadge.className = 'day-complete-badge';
-    dayBadge.textContent = 'Día Completado';
-    dayBadge.style.display = 'none';
-    dayBadge.style.marginLeft = '8px';
-    // Flecha de expansión
-    const arrow = document.createElement('span');
-    arrow.className = 'arrow';
-    arrow.textContent = '▸';
-    arrow.style.marginLeft = 'auto';
-    // Ensamblar header
-    header.append(title, dayBadge, arrow);
-    const content = document.createElement('div'); content.className = 'day-content';
-    header.addEventListener('click', () => {
-      content.classList.toggle('expanded');
-      arrow.textContent = content.classList.contains('expanded') ? '▾' : '▸';
-    });
-
-    // Ejercicios
-    day.exercises.forEach((exercise, exIndex) => {
-      const exCard = document.createElement('div'); 
-      exCard.className = 'exercise-card';
-      
-      // Título del ejercicio
-      const title = document.createElement('div'); 
-      title.className = 'exercise-title'; 
-      title.textContent = exercise.title;
-      exCard.appendChild(title);
-      
-      // Badge de completado
-      const completionBadge = document.createElement('div');
-      completionBadge.className = 'completion-badge';
-      completionBadge.textContent = 'Completado';
-      exCard.appendChild(completionBadge);
-      
-      const key = `rutina-${dayIndex}-${exIndex}`;
-      let count = parseInt(localStorage.getItem(key)) || 0;
-      
-      // Contador
-      const counter = document.createElement('div'); 
-      counter.className = 'counter'; 
-      counter.textContent = `${count} / ${exercise.series}`;
-      
-      // Botones de control
-      const btnGroup = document.createElement('div'); 
-      btnGroup.className = 'button-group';
-      
-      const btnMinus = document.createElement('button'); 
-      btnMinus.textContent = '–';
-      
-      const btnPlus = document.createElement('button'); 
-      btnPlus.textContent = '+';
-      
-      // Configuración de eventos táctiles
-      [btnMinus, btnPlus].forEach(btn => btn.style.touchAction = 'manipulation');
-      
-      // Eventos de los botones
-      btnMinus.addEventListener('click', () => { 
-        if (count > 0) { 
-          count--; 
-          update(); 
-        } 
-      });
-      
-      btnPlus.addEventListener('click', () => { 
-        if (count < exercise.series) { 
-          count++; 
-          update(); 
-        } 
-      });
-      
-      btnGroup.append(btnMinus, btnPlus);
-      
-      // Función para actualizar la UI
-      function update() {
-        localStorage.setItem(key, count);
-        counter.textContent = `${count} / ${exercise.series}`;
-        
-        if (count >= exercise.series) {
-          exCard.classList.add('exercise-completed');
-          btnPlus.disabled = true;
-        } else {
-          exCard.classList.remove('exercise-completed');
-          btnPlus.disabled = false;
+  function setupResetButton() {
+    if (!resetBtn) return;
+    resetBtn.addEventListener('click', () => {
+      if (confirm('¿Seguro que quieres reiniciar todos los contadores?')) {
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i += 1) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith(COUNT_PREFIX)) {
+            keysToRemove.push(key);
+          }
         }
-        
-        // Actualizar estado del botón de menos
-        btnMinus.disabled = count <= 0;
-        
-        // Actualizar estado del día
-        updateDayStatus(dayIndex, header);
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+        renderRoutine();
       }
-      
-      // Estado inicial
-      if (count >= exercise.series) {
-        exCard.classList.add('exercise-completed');
-        btnPlus.disabled = true;
-      }
-      btnMinus.disabled = count <= 0;
-      
-      // Verificar estado inicial del día
-      updateDayStatus(dayIndex, header);
-      
-      // Añadir elementos al DOM
-      exCard.append(counter, btnGroup);
-      content.appendChild(exCard);
+    });
+  }
+
+  function setupEditorEvents() {
+    if (!openEditorBtn || !overlay) return;
+
+    openEditorBtn.addEventListener('click', openEditor);
+
+    [closeEditorBtn, cancelEditorBtn].forEach(btn => {
+      if (btn) btn.addEventListener('click', closeEditor);
     });
 
-    card.append(header, content);
-    area.appendChild(card);
-  });
+    overlay.addEventListener('click', event => {
+      if (event.target === overlay) {
+        closeEditor();
+      }
+    });
+
+    if (daySelector) {
+      daySelector.addEventListener('change', event => {
+        const index = parseInt(event.target.value, 10);
+        if (!Number.isNaN(index)) {
+          renderExerciseList(index);
+        }
+      });
+    }
+
+    if (addExerciseBtn) {
+      addExerciseBtn.addEventListener('click', () => {
+        if (!tempRoutine) return;
+        const index = parseInt(daySelector.value, 10);
+        if (Number.isNaN(index)) return;
+        const day = tempRoutine[index];
+        if (!day) return;
+        day.exercises.push({
+          id: generateExerciseId(day.name),
+          title: 'Nuevo ejercicio',
+          series: 1
+        });
+        renderExerciseList(index);
+      });
+    }
+
+    if (saveRoutineBtn) {
+      saveRoutineBtn.addEventListener('click', () => {
+        if (!tempRoutine) return;
+        commitTempRoutine();
+      });
+    }
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !overlay.classList.contains('hidden')) {
+        closeEditor();
+      }
+    });
+  }
+
+  function openEditor() {
+    tempRoutine = cloneRoutine(routine);
+    populateDaySelector();
+
+    if (tempRoutine.length > 0) {
+      daySelector.value = '0';
+      renderExerciseList(0);
+    } else {
+      exerciseList.innerHTML = '';
+      if (addExerciseBtn) addExerciseBtn.disabled = true;
+    }
+
+    overlay.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeEditor() {
+    overlay.classList.add('hidden');
+    document.body.style.overflow = '';
+    daySelector.innerHTML = '';
+    exerciseList.innerHTML = '';
+    tempRoutine = null;
+  }
+
+  function populateDaySelector() {
+    if (!daySelector) return;
+    daySelector.innerHTML = '';
+    tempRoutine.forEach((day, index) => {
+      const option = document.createElement('option');
+      option.value = String(index);
+      option.textContent = day.name;
+      daySelector.appendChild(option);
+    });
+  }
+
+  function renderExerciseList(dayIndex) {
+    if (!exerciseList || !tempRoutine) return;
+    const day = tempRoutine[dayIndex];
+    exerciseList.innerHTML = '';
+
+    if (!day) {
+      if (addExerciseBtn) addExerciseBtn.disabled = true;
+      return;
+    }
+
+    if (addExerciseBtn) addExerciseBtn.disabled = false;
+
+    if (day.exercises.length === 0) {
+      const empty = document.createElement('p');
+      empty.textContent = 'No hay ejercicios. Agregá uno nuevo para este día.';
+      empty.style.color = '#b3b3c9';
+      empty.style.margin = '0';
+      exerciseList.appendChild(empty);
+      return;
+    }
+
+    day.exercises.forEach((exercise, exIndex) => {
+      const card = document.createElement('div');
+      card.className = 'exercise-config-card';
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'remove-exercise-btn';
+      removeBtn.type = 'button';
+      removeBtn.textContent = '×';
+      removeBtn.title = 'Eliminar ejercicio';
+      removeBtn.addEventListener('click', () => {
+        day.exercises.splice(exIndex, 1);
+        renderExerciseList(dayIndex);
+      });
+      card.appendChild(removeBtn);
+
+      const fields = document.createElement('div');
+      fields.className = 'exercise-config-fields';
+
+      const titleInput = document.createElement('input');
+      titleInput.type = 'text';
+      titleInput.value = exercise.title;
+      titleInput.placeholder = 'Nombre del ejercicio';
+      titleInput.autocomplete = 'off';
+      titleInput.addEventListener('input', event => {
+        exercise.title = event.target.value;
+      });
+
+      const seriesInput = document.createElement('input');
+      seriesInput.type = 'number';
+      seriesInput.min = '1';
+      seriesInput.value = exercise.series;
+      seriesInput.placeholder = 'Series';
+      seriesInput.inputMode = 'numeric';
+      seriesInput.classList.add('series-field');
+      seriesInput.addEventListener('input', event => {
+        exercise.series = normalizeSeries(event.target.value);
+      });
+      seriesInput.addEventListener('blur', () => {
+        seriesInput.value = exercise.series;
+      });
+
+      fields.append(titleInput, seriesInput);
+      card.appendChild(fields);
+      exerciseList.appendChild(card);
+    });
+  }
+
+  function commitTempRoutine() {
+    const sanitized = tempRoutine.map(day => ({
+      name: day.name,
+      exercises: day.exercises.map(exercise => ({
+        id: exercise.id || generateExerciseId(day.name),
+        title: (exercise.title || '').trim() || 'Ejercicio sin título',
+        series: normalizeSeries(exercise.series)
+      }))
+    }));
+
+    routine = sanitized;
+    persistRoutine();
+    syncCountersWithRoutine();
+    renderRoutine();
+    closeEditor();
+  }
+
+  function persistRoutine() {
+    localStorage.setItem(ROUTINE_STORAGE_KEY, JSON.stringify(routine));
+  }
+
+  function syncCountersWithRoutine() {
+    const validExercises = new Map();
+    routine.forEach(day => {
+      day.exercises.forEach(exercise => {
+        validExercises.set(exercise.id, exercise);
+      });
+    });
+
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i += 1) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith(COUNT_PREFIX)) continue;
+      const exerciseId = key.slice(COUNT_PREFIX.length);
+      if (!validExercises.has(exerciseId)) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach(key => localStorage.removeItem(key));
+
+    validExercises.forEach((exercise, id) => {
+      const key = `${COUNT_PREFIX}${id}`;
+      const value = parseInt(localStorage.getItem(key), 10);
+      if (Number.isFinite(value) && value > exercise.series) {
+        localStorage.setItem(key, String(exercise.series));
+      }
+    });
+  }
+
+  function generateExerciseId(dayName) {
+    const normalizedDay = (dayName || 'dia').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+      return `${normalizedDay}-${window.crypto.randomUUID()}`;
+    }
+    const randomSuffix = Math.random().toString(36).slice(2, 8);
+    const timeSuffix = Date.now().toString(36);
+    return `${normalizedDay}-${randomSuffix}-${timeSuffix}`;
+  }
 });
