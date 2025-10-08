@@ -82,6 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let routine = loadRoutine();
   let tempRoutine = null;
 
+  persistRoutine();
+  requestPersistentStorage();
+  window.addEventListener('storage', handleExternalRoutineUpdate);
+
   cleanupLegacyCounters();
   renderRoutine();
   setupResetButton();
@@ -478,7 +482,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function persistRoutine() {
-    localStorage.setItem(ROUTINE_STORAGE_KEY, JSON.stringify(routine));
+    try {
+      localStorage.setItem(ROUTINE_STORAGE_KEY, JSON.stringify(routine));
+    } catch (error) {
+      console.error('No se pudo guardar la rutina en el dispositivo.', error);
+      alert('No se pudo guardar la rutina en el dispositivo. Liberá espacio o revisá los permisos de almacenamiento.');
+    }
   }
 
   function syncCountersWithRoutine() {
@@ -517,5 +526,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const randomSuffix = Math.random().toString(36).slice(2, 8);
     const timeSuffix = Date.now().toString(36);
     return `${normalizedDay}-${randomSuffix}-${timeSuffix}`;
+  }
+
+  function requestPersistentStorage() {
+    if (!navigator.storage || typeof navigator.storage.persist !== 'function') return;
+    navigator.storage.persisted?.().then(alreadyPersisted => {
+      if (alreadyPersisted) return;
+      return navigator.storage.persist().catch(error => {
+        console.warn('No se pudo solicitar almacenamiento persistente.', error);
+      });
+    }).catch(error => {
+      console.warn('No se pudo verificar el estado del almacenamiento persistente.', error);
+    });
+  }
+
+  function handleExternalRoutineUpdate(event) {
+    if (event.storageArea !== localStorage || event.key !== ROUTINE_STORAGE_KEY) return;
+    if (!event.newValue) return;
+    try {
+      const updated = sanitizeRoutine(JSON.parse(event.newValue));
+      routine = updated;
+      renderRoutine();
+      if (overlay && !overlay.classList.contains('hidden') && tempRoutine) {
+        tempRoutine = cloneRoutine(routine);
+        if (daySelector) {
+          const selectedIndex = parseInt(daySelector.value, 10);
+          if (!Number.isNaN(selectedIndex)) {
+            renderExerciseList(selectedIndex);
+          }
+        }
+      }
+    } catch (error) {
+      console.warn('No se pudo sincronizar la rutina con los cambios externos.', error);
+    }
   }
 });
