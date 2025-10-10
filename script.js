@@ -6,65 +6,70 @@ document.addEventListener('DOMContentLoaded', () => {
   const defaultRoutine = [
     { name: 'LUNES', exercises: [
       { id: 'lunes-sentadillas', title: 'Sentadillas (3x5)', series: 3 },
-      { id: 'lunes-peso-muerto-rumano', title: 'Peso Muerto Rumano (4x12)', series: 4 },
+      { id: 'lunes-empuje-cadera', title: 'Empuje de Cadera (4x12) + Finisher', series: 4 },
       { id: 'lunes-ext-cuadriceps', title: 'Extensiones de Cuádriceps (4x12)', series: 4 },
-      { id: 'lunes-curl-femoral', title: 'Curl Femoral (3x12)', series: 3 },
+      { id: 'lunes-curl-femoral', title: 'Curl Femoral (4x12)', series: 4 },
+      { id: 'lunes-extension-lumbar', title: 'Extensión lumbar 45° (2x12)', series: 2 },
       { id: 'lunes-gemelos-parado', title: 'Gemelos Parado (6x12)', series: 6 },
-      { id: 'lunes-gemelos-frontal', title: 'Gemelos Frontal (4x8)', series: 4 },
-      { id: 'lunes-oblicuos', title: 'Oblicuos (4x12)', series: 4 }
+      { id: 'lunes-gemelo-sentado', title: 'Gemelo Sentado (5x12)', series: 5 },
+      { id: 'lunes-gemelos-frontal', title: 'Gemelos Frontal (4x8)', series: 4 }
     ] },
     { name: 'MARTES', exercises: [
       { id: 'martes-banco-plano', title: 'Banco Plano (3x8)', series: 3 },
-      { id: 'martes-press-militar-maquina', title: 'Press Militar en Maquina (3x8)', series: 3 },
+      { id: 'martes-press-militar-maquina', title: 'Press Militar en Máquina (3x8)', series: 3 },
       { id: 'martes-press-mancuernas-concentrado', title: 'Press Militar con Mancuernas Concentrado (2x12)', series: 2 },
-      { id: 'martes-cruces-polea-inferior', title: 'Cruces de Polea para Pectoral Inferior (3x10)', series: 3 },
-      { id: 'martes-cruces-polea-superior', title: 'Cruces de Polea para Pectoral Superior (3x12)', series: 3 },
-      { id: 'martes-triceps-polea-alta', title: 'Tríceps Polea Alta (4x10)', series: 4 },
-      { id: 'martes-apertura-maquina', title: 'Apertura con Maquina con pausa al final (3x12)', series: 3 },
-      { id: 'martes-vuelos-laterales', title: 'Vuelos Laterales (3x12)', series: 3 },
-      { id: 'martes-triceps-smith', title: 'Tríceps en Maquina Smith (4x12)', series: 4 },
-      { id: 'martes-vuelos-frontales', title: 'Vuelos Frontales (2x12)', series: 2 }
+      { id: 'martes-cruces-polea-inferior', title: 'Cruces de Polea - Pectoral Inferior (2x10)', series: 2 },
+      { id: 'martes-cruces-polea-superior', title: 'Cruces de Polea - Pectoral Superior (4x12)', series: 4 },
+      { id: 'martes-triceps-polea-alta', title: 'Tríceps en Polea Alta (4x10)', series: 4 },
+      { id: 'martes-triceps-polea-baja', title: 'Tríceps en Polea Baja (4x12)', series: 4 },
+      { id: 'martes-vuelos-laterales', title: 'Vuelos Laterales (4x12)', series: 4 }
     ] },
     { name: 'MIÉRCOLES', exercises: [
-      { id: 'miercoles-remo-maquina', title: 'Remo en Maquina (3x8)', series: 3 },
-      { id: 'miercoles-remo-maquina-concentrado', title: 'Remo en Maquina Concentrado (2x12 + 4)', series: 2 },
-      { id: 'miercoles-biceps-mancuernas', title: 'Biceps con Mancuernas (3x8)', series: 3 },
-      { id: 'miercoles-remo-alto', title: 'Remo Alto (5x10)', series: 5 },
+      { id: 'miercoles-remo-maquina', title: 'Remo en Máquina (3x8)', series: 3 },
+      { id: 'miercoles-remo-maquina-concentrado', title: 'Remo en Máquina Concentrado (2x12 + 4)', series: 2 },
+      { id: 'miercoles-biceps-mancuernas', title: 'Bíceps con Mancuernas (3x8)', series: 3 },
+      { id: 'miercoles-remo-t', title: 'Remo T (5x10)', series: 5 },
+      { id: 'miercoles-banco-inclinado', title: 'Banco Inclinado con Mancuernas (3x12)', series: 3 },
+      { id: 'miercoles-face-pull', title: 'Face Pull (2x12)', series: 2 },
+      { id: 'miercoles-y-raise', title: 'Y-raise (2x12)', series: 2 },
+      { id: 'miercoles-banco-scott', title: 'Banco Scott (3x12)', series: 3 },
+      { id: 'miercoles-rotadores-externos', title: 'Rotadores externos en polea codo pegado al cuerpo, polea altura del codo (3x12)', series: 3 },
       { id: 'miercoles-trapecio-fat-grip', title: 'Trapecio con Fat Grip (6x10)', series: 6 },
-      { id: 'miercoles-banco-scott-polea', title: 'Banco Scott en Polea (3x12)', series: 3 },
-      { id: 'miercoles-vuelos-posteriores', title: 'Vuelos Posteriores (3x12) + Finisher', series: 3 },
-      { id: 'miercoles-banco-inclinado-mancuernas', title: 'Banco Inclinado con mancuernas (3x12)', series: 3 }
+      { id: 'miercoles-vuelos-posteriores', title: 'Vuelos Posteriores (3x12)', series: 3 }
     ] },
     { name: 'JUEVES', exercises: [
       { id: 'jueves-sentadillas', title: 'Sentadillas (3x5)', series: 3 },
       { id: 'jueves-empuje-cadera', title: 'Empuje de Cadera (5x12) + Finisher', series: 5 },
-      { id: 'jueves-ext-cuadriceps', title: 'Extensiones de Cuádriceps (6x12)', series: 6 },
-      { id: 'jueves-curl-femoral', title: 'Curl Femoral (4x12)', series: 4 },
+      { id: 'jueves-ext-cuadriceps', title: 'Extensiones de Cuádriceps (5x12)', series: 5 },
+      { id: 'jueves-curl-femoral', title: 'Curl Femoral (5x12)', series: 5 },
+      { id: 'jueves-extension-lumbar', title: 'Extensión lumbar 45° (3x12)', series: 3 },
       { id: 'jueves-gemelos-parado', title: 'Gemelos Parado (8x12)', series: 8 },
-      { id: 'jueves-gemelos-frontal', title: 'Gemelos Frontal (4x8)', series: 4 },
-      { id: 'jueves-oblicuos', title: 'Oblicuos (4x12)', series: 4 }
+      { id: 'jueves-gemelo-sentado', title: 'Gemelo Sentado (6x12)', series: 6 },
+      { id: 'jueves-gemelos-frontal', title: 'Gemelos Frontal (4x8)', series: 4 }
     ] },
     { name: 'VIERNES', exercises: [
       { id: 'viernes-banco-plano', title: 'Banco Plano (3x8)', series: 3 },
-      { id: 'viernes-press-militar-maquina', title: 'Press Militar en Maquina (3x8)', series: 3 },
-      { id: 'viernes-press-militar-mancuernas', title: 'Press Militar Mancuernas (2x12)', series: 2 },
-      { id: 'viernes-cruces-polea-inferior', title: 'Cruces de Polea para Pectoral Inferior (3x10)', series: 3 },
-      { id: 'viernes-apertura-maquina', title: 'Apertura en Maquina con pausa (5x12)', series: 5 },
-      { id: 'viernes-vuelos-laterales', title: 'Vuelos Laterales (5x12) + Finisher', series: 5 },
+      { id: 'viernes-press-militar-maquina', title: 'Press Militar en Máquina (3x8)', series: 3 },
+      { id: 'viernes-press-militar-mancuernas', title: 'Press Militar con Mancuernas (2x12)', series: 2 },
+      { id: 'viernes-cruces-polea-inferior', title: 'Cruces de Polea - Pectoral Inferior (3x10)', series: 3 },
+      { id: 'viernes-cruces-polea-superior', title: 'Cruces de Polea - Pectoral Superior (4x12)', series: 4 },
       { id: 'viernes-triceps-polea-alta', title: 'Tríceps en Polea Alta (6x12)', series: 6 },
-      { id: 'viernes-pecho-superior', title: 'Pecho superior en polea (3x12)', series: 3 },
-      { id: 'viernes-triceps-smith', title: 'Tríceps en Maquina Smith (6x12)', series: 6 },
-      { id: 'viernes-vuelos-frontales', title: 'Vuelos Frontales (3x12)', series: 3 }
+      { id: 'viernes-triceps-polea-baja', title: 'Tríceps en Polea Baja (6x12)', series: 6 },
+      { id: 'viernes-apertura-maquina', title: 'Apertura en Máquina (2x12)', series: 2 },
+      { id: 'viernes-vuelos-laterales', title: 'Vuelos Laterales (6x12) + Finisher', series: 6 }
     ] },
     { name: 'SÁBADO', exercises: [
-      { id: 'sabado-remo-maquina', title: 'Remo en Maquina (4x8)', series: 4 },
-      { id: 'sabado-remo-maquina-concentrado', title: 'Remo en Maquina Concentrado (2x12 + 4)', series: 2 },
-      { id: 'sabado-biceps-mancuernas', title: 'Biceps con Mancuernas (4x8)', series: 4 },
-      { id: 'sabado-remo-alto', title: 'Remo Alto (6x10)', series: 6 },
-      { id: 'sabado-trapecio-fat-grip', title: 'Trapecio con Fat Grip (7x10)', series: 7 },
+      { id: 'sabado-remo-maquina', title: 'Remo en Máquina (4x8)', series: 4 },
+      { id: 'sabado-remo-maquina-concentrado', title: 'Remo en Máquina Concentrado (2x12 + 4)', series: 2 },
+      { id: 'sabado-biceps-mancuernas', title: 'Bíceps con Mancuernas (4x8)', series: 4 },
+      { id: 'sabado-remo-t', title: 'Remo T (6x10)', series: 6 },
+      { id: 'sabado-biceps-banco-inclinado', title: 'Bíceps en Banco Inclinado (4x12)', series: 4 },
+      { id: 'sabado-face-pull', title: 'Face Pull (3x12)', series: 3 },
+      { id: 'sabado-y-raise', title: 'Y-raise (2x12)', series: 2 },
       { id: 'sabado-banco-scott', title: 'Banco Scott (4x12)', series: 4 },
-      { id: 'sabado-vuelos-posteriores', title: 'Vuelos Posteriores (4x12) + 2 Finisher', series: 4 },
-      { id: 'sabado-biceps-banco-inclinado', title: 'Biceps en Banco Inclinado (4x12)', series: 4 }
+      { id: 'sabado-rotadores-externos', title: 'Rotadores externos en polea codo pegado al cuerpo, polea altura del codo (4x12)', series: 4 },
+      { id: 'sabado-trapecio-fat-grip', title: 'Trapecio con Fat Grip (7x10)', series: 7 },
+      { id: 'sabado-vuelos-posteriores', title: 'Vuelos Posteriores (4x12)', series: 4 }
     ] }
   ];
 
