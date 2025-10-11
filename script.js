@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { id: 'viernes-cruces-polea-inferior', title: 'Cruces de Polea - Pectoral Inferior (3x10)', series: 3 },
       { id: 'viernes-cruces-polea-superior', title: 'Cruces de Polea - Pectoral Superior (4x12)', series: 4 },
       { id: 'viernes-triceps-polea-alta', title: 'Tríceps en Polea Alta (6x12)', series: 6 },
-      { id: 'viernes-triceps-polea-baja', title: 'Tríceps en Polea Baja (6x12)', series: 6 },
+      { id: 'viernes-triceps-polea-baja', title: 'Tríceps en Polea Baja (4x12)', series: 4 },
       { id: 'viernes-apertura-maquina', title: 'Apertura en Máquina (2x12)', series: 2 },
       { id: 'viernes-vuelos-laterales', title: 'Vuelos Laterales (6x12) + Finisher', series: 6 }
     ] },
