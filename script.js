@@ -83,9 +83,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const daySelector = document.getElementById('daySelector');
   const exerciseList = document.getElementById('exerciseList');
   const addExerciseBtn = document.getElementById('addExerciseBtn');
+  const installBtn = document.getElementById('installAppBtn');
 
   let routine = loadRoutine();
   let tempRoutine = null;
+  let deferredInstallPrompt = null;
 
   persistRoutine();
   requestPersistentStorage();
@@ -95,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRoutine();
   setupResetButton();
   setupEditorEvents();
+  setupInstallPrompt();
 
   function loadRoutine() {
     const stored = localStorage.getItem(ROUTINE_STORAGE_KEY);
@@ -564,5 +567,46 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       console.warn('No se pudo sincronizar la rutina con los cambios externos.', error);
     }
+  }
+
+  function setupInstallPrompt() {
+    if (!installBtn) return;
+
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+      installBtn.remove();
+      return;
+    }
+
+    installBtn.disabled = false;
+    installBtn.classList.remove('is-visible');
+
+    window.addEventListener('beforeinstallprompt', event => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      installBtn.disabled = false;
+      installBtn.classList.add('is-visible');
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (!deferredInstallPrompt) return;
+
+      installBtn.disabled = true;
+      try {
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+      } catch (error) {
+        console.warn('No se pudo completar la instalación de la app.', error);
+      } finally {
+        deferredInstallPrompt = null;
+        installBtn.disabled = false;
+        installBtn.classList.remove('is-visible');
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredInstallPrompt = null;
+      installBtn.disabled = false;
+      installBtn.classList.remove('is-visible');
+    });
   }
 });
